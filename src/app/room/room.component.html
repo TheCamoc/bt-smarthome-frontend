@@ -1,0 +1,46 @@
+<!--<mat-card *ngFor='let room of rooms'>
+    <mat-card-title>
+        {{ room.name }}
+    </mat-card-title>
+    <mat-card-content>
+        <span class='container' *ngFor='let device of (devices | buttons | room:room.name)'>
+            <a (click)="switchDevice(device)" [style.color]="device.state ? '#efef00': 'black'" mat-button>
+                <mat-icon svgIcon="{{device.icon}}"></mat-icon>
+            </a>
+            <span class="sub">{{ device.name }}</span>
+        </span>
+    </mat-card-content>
+    
+    <mat-card-actions>
+        <a mat-button (click)="openSettingsDialog()">
+            <mat-icon svgIcon="settings"></mat-icon>
+            Device Settings
+        </a>
+        <a mat-button (click)="openAddDeviceDialog()">
+            <mat-icon svgIcon="plus-circle"></mat-icon>
+            Add Device
+        </a>
+    </mat-card-actions>
+</mat-card>-->
+
+<!--<mat-card class="switch-card" *ngFor="let switch of switches">
+    <mat-card-subtitle>{{ switch.name }}</mat-card-subtitle>
+    <mat-card-actions>
+        <mat-slide-toggle [checked]="switch.state"></mat-slide-toggle>
+    </mat-card-actions>
+</mat-card> -->
+
+<mat-card *ngFor='let room of rooms'>
+    <mat-card-title>
+        {{ room.name }}
+    </mat-card-title>
+    <mat-card-content>
+        <mat-divider style="margin-bottom: 8px;"></mat-divider>
+        <span class='container' *ngFor='let switch of (switches | roomFilter:room.name)'>
+            <a mat-button (click)="switchSwitch(switch)" [style.color]="switch.state ? '#efef00': 'black'" >
+                <mat-icon>outlet</mat-icon>
+            </a>
+            <span class="sub">{{ switch.name }}</span>
+        </span>
+    </mat-card-content>
+</mat-card>
