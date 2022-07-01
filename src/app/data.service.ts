@@ -15,4 +15,8 @@ export class DataService {
   getRooms() {
     return this.http.get<Object[]>('http://127.0.0.1:8000/api/rooms/?format=json');
   }
+
+  switchSwitch(name: any, state: any) {
+    return this.http.put(`http://127.0.0.1:8000/api/switches/${name}/`, {"state": state});
+  }
 }

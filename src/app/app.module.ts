@@ -12,12 +12,15 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RoomFilterPipe } from './room-filter.pipe';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
+import { TitlebarComponent } from './titlebar/titlebar.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
     AppComponent,
     RoomComponent,
-    RoomFilterPipe
+    RoomFilterPipe,
+    TitlebarComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +31,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatSlideToggleModule,
     MatDividerModule,
-    MatButtonModule
+    MatButtonModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

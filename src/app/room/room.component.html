@@ -37,10 +37,10 @@
     <mat-card-content>
         <mat-divider style="margin-bottom: 8px;"></mat-divider>
         <span class='container' *ngFor='let switch of (switches | roomFilter:room.name)'>
-            <a mat-button (click)="switchSwitch(switch)" [style.color]="switch.state ? '#efef00': 'black'" >
+            <a mat-button (click)="switchSwitch(switch)" [style.color]="switch.state ? '#efef00': '#ffffffd9'" >
                 <mat-icon>outlet</mat-icon>
             </a>
-            <span class="sub">{{ switch.name }}</span>
+            <span>{{ switch.name }}</span>
         </span>
     </mat-card-content>
 </mat-card>
