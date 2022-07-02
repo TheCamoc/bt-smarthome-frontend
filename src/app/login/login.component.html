@@ -1,0 +1,26 @@
+<mat-card>
+    <mat-card-content>
+        <form>
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Username</mat-label>
+                <input type="text" matInput [formControl]="usernameFormControl">
+                <mat-error *ngIf="usernameFormControl.hasError('required')">
+                    Username is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput [formControl]="passwordFormControl">
+                <mat-error *ngIf="passwordFormControl.hasError('required')">
+                    Password is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+        </form>
+        <mat-error *ngIf="failedLogin" style="margin-bottom: 14px;">
+            Wrong Username and / or Password
+        </mat-error>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-stroked-button (click)="login()">Login</button>
+    </mat-card-actions>
+</mat-card>
