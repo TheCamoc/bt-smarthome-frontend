@@ -7,19 +7,29 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private httpOptions: any;
-  private access_token: string | undefined;
-  private refresh_token: string | undefined;
-  private token_expires: Date | undefined;
-
-  private valid_token = false;
+  public httpOptions: any;
+  public access_token: string | undefined;
+  public refresh_token: string | undefined;
+  public access_token_expires: Date | undefined;
+  public refresh_token_expires: Date | undefined;
+  public valid_token = false;
 
   constructor(private http: HttpClient) {
     this.httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    this.valid_token = this.loadToken();
+    this.loadToken();
+  }
+
+  public hasValidToken() {
+    if (this.access_token && this.refresh_token && this.access_token_expires && this.refresh_token_expires) {
+      if (new Date().getTime() < this.refresh_token_expires.getTime()) {
+        return true;
+      }
+    }
+    this.clearTokens();
+    return false;
   }
 
   public login(username: String, password: String) {
@@ -39,25 +49,22 @@ export class AuthenticationService {
   }
 
   private refreshToken() {
+    if (this.refresh_token_expires && new Date().getTime() > this.refresh_token_expires.getTime()) {
+      this.clearTokens();
+      return;
+    }
+
     let request = this.http.post(`${window.location.origin}/api/token/refresh/`, { "refresh": this.refresh_token }, this.httpOptions);
 
     request.subscribe({
       error: (e) => console.log(e),
       next: (data) => this.updateData(data)
-    }
-    );
+    });
 
     return request;
   }
 
   public getAccessToken(): string | undefined {
-    if (!this.access_token || !this.token_expires) {
-      return;
-    }
-    if (new Date() > this.token_expires) {
-      return;
-    }
-
     return this.access_token;
   }
 
@@ -68,12 +75,47 @@ export class AuthenticationService {
     }
     this.saveToken();
 
-    if (!this.access_token || !this.refresh_token) {
+    if (this.access_token && this.refresh_token) {
+      this.access_token_expires = new Date(this.decodeToken(this.access_token).exp * 1000);
+      this.refresh_token_expires = new Date(this.decodeToken(this.refresh_token).exp * 1000);
+      this.setupRefreshTimer();
+    }
+  }
+
+  private saveToken() {
+    localStorage.setItem('jwt', JSON.stringify({"access": this.access_token, "refresh": this.refresh_token}));
+  }
+
+  private loadToken() {
+    let full_token = localStorage.getItem('jwt');
+    if (full_token == null) {
       return;
     }
 
-    this.token_expires = new Date(this.decodeToken(this.access_token).exp * 1000);
-    this.setupRefreshTimer();
+    let parsed_full_token = JSON.parse(full_token);
+
+    this.access_token = parsed_full_token['access'];
+    this.refresh_token = parsed_full_token['refresh'];
+
+    if (this.access_token && this.refresh_token) {
+      this.access_token_expires = new Date(this.decodeToken(this.access_token).exp * 1000);
+      this.refresh_token_expires = new Date(this.decodeToken(this.refresh_token).exp * 1000);
+      this.setupRefreshTimer();
+    }
+  }
+
+  private setupRefreshTimer() {
+    let this_ = this;
+    if (this.refresh_token && this.refresh_token_expires) {
+      if (new Date().getTime() > this.refresh_token_expires.getTime()) {
+        this.clearTokens();
+        return;
+      }
+
+      if (this.access_token_expires) {
+        setTimeout(function () { this_.refreshToken() }, this.access_token_expires.getTime() - new Date().getTime() - 20000);
+      }
+    }
   }
 
   private decodeToken(token: any): any {
@@ -82,39 +124,11 @@ export class AuthenticationService {
     return token_decoded
   }
 
-  private saveToken() {
-    localStorage.setItem('jwt', JSON.stringify({"access": this.access_token, "refresh": this.refresh_token}));
-  }
-
-  private loadToken(): boolean {
-    let full_token = localStorage.getItem('jwt');
-    if (full_token == null) {
-      return false;
-    }
-
-    let parsed_full_token = JSON.parse(full_token);
-
-    this.access_token = parsed_full_token['access'];
-    this.refresh_token = parsed_full_token['refresh'];
-
-    if (this.access_token) {
-      this.token_expires = new Date(this.decodeToken(this.access_token).exp * 1000);
-      this.setupRefreshTimer();
-    }
-
-    return this.access_token != undefined && this.refresh_token != undefined;
-  }
-
-  private setupRefreshTimer() {
-    let this_ = this;
-    if (this.refresh_token) {
-      if (new Date().getTime() > this.decodeToken(this.refresh_token).exp * 1000) {
-        localStorage.removeItem('jwt');
-      }
-
-      if (this.token_expires) {
-        setTimeout(function () { this_.refreshToken() }, this.token_expires.getTime() - new Date().getTime() - 20000);
-      }
-    }
+  private clearTokens() {
+    localStorage.removeItem('jwt');
+    this.access_token = undefined;
+    this.refresh_token = undefined;
+    this.access_token_expires = undefined;
+    this.refresh_token_expires = undefined;
   }
 }

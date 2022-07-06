@@ -15,7 +15,7 @@ export class HeadersInterceptor implements HttpInterceptor {
   constructor(private authenticationService: AuthenticationService, private router: Router) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (!this.authenticationService.getAccessToken()) {
+    if (!this.authenticationService.hasValidToken()) {
       this.router.navigate(['/login']);
     }
     request = request.clone({
