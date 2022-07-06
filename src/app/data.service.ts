@@ -13,14 +13,14 @@ export class DataService {
   }
 
   getSwitches() {
-    return this.http.get<Object[]>(`${environment.backend_url}/api/switches/?format=json`);
+    return this.http.get<Object[]>(`${window.location.origin}/api/switches/?format=json`);
   }
 
   getRooms() {
-    return this.http.get<Object[]>(`${environment.backend_url}/api/rooms/?format=json`);
+    return this.http.get<Object[]>(`${window.location.origin}/api/rooms/?format=json`);
   }
 
   switchSwitch(name: any, state: any) {
-    return this.http.put(`${environment.backend_url}/api/switches/${name}/`, {"state": state});
+    return this.http.put(`${window.location.origin}/api/switches/${name}/`, {"state": state});
   }
 }

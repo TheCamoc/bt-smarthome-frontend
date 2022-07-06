@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class TitlebarComponent implements OnInit {
 
-  admin_site_url = `${environment.backend_url}/admin/`;
+  admin_site_url = `${window.location.origin}/admin/`;
 
   constructor() { }
 

@@ -23,7 +23,7 @@ export class AuthenticationService {
   }
 
   public login(username: String, password: String) {
-    let request = this.http.post(`${environment.backend_url}/api/token/`, { "username": username, "password": password }, this.httpOptions);
+    let request = this.http.post(`${window.location.origin}/api/token/`, { "username": username, "password": password }, this.httpOptions);
 
     let result = new Promise((resolve, reject) => {
       request.subscribe({
@@ -39,7 +39,7 @@ export class AuthenticationService {
   }
 
   private refreshToken() {
-    let request = this.http.post(`${environment.backend_url}/api/token/refresh/`, { "refresh": this.refresh_token }, this.httpOptions);
+    let request = this.http.post(`${window.location.origin}/api/token/refresh/`, { "refresh": this.refresh_token }, this.httpOptions);
 
     request.subscribe({
       error: (e) => console.log(e),
