@@ -8,6 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
+import { retry } from 'rxjs/operators';
 
 @Injectable()
 export class HeadersInterceptor implements HttpInterceptor {
@@ -23,6 +24,6 @@ export class HeadersInterceptor implements HttpInterceptor {
         'Authorization': 'Bearer ' + this.authenticationService.getAccessToken()
       }
     })
-    return next.handle(request);
+    return next.handle(request).pipe(retry(2));
   }
 }

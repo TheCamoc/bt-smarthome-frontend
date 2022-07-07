@@ -37,6 +37,7 @@ export class RoomComponent implements OnInit {
     this.getRooms();
 
     let this_ = this;
+    this.intervals.push(setInterval(function () { this_.getRooms() }, 5000));
     this.intervals.push(setInterval(function () { this_.getSwitches() }, 5000));
   }
 
