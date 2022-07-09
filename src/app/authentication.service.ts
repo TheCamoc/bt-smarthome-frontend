@@ -19,7 +19,7 @@ export class AuthenticationService {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    this.loadToken();
+    //this.loadToken();
   }
 
   public hasValidToken() {
@@ -86,10 +86,12 @@ export class AuthenticationService {
     localStorage.setItem('jwt', JSON.stringify({"access": this.access_token, "refresh": this.refresh_token}));
   }
 
-  private loadToken() {
+  public loadToken() {
     let full_token = localStorage.getItem('jwt');
     if (full_token == null) {
-      return;
+      return new Promise((resolve, reject) => {
+        reject();
+      })
     }
 
     let parsed_full_token = JSON.parse(full_token);
@@ -100,8 +102,25 @@ export class AuthenticationService {
     if (this.access_token && this.refresh_token) {
       this.access_token_expires = new Date(this.decodeToken(this.access_token).exp * 1000);
       this.refresh_token_expires = new Date(this.decodeToken(this.refresh_token).exp * 1000);
-      this.setupRefreshTimer();
+
+      return new Promise<void>((resolve, reject) => {
+        if (this.access_token_expires && new Date().getTime() > this.access_token_expires.getTime()) {
+          let request = this.http.post(`${window.location.origin}/api/token/refresh/`, { "refresh": this.refresh_token }, this.httpOptions);
+
+          request.subscribe({
+            error: (e) => reject(e),
+            next: (data) => {this.updateData(data); this.setupRefreshTimer(); resolve()}
+          });
+        } else {
+          this.setupRefreshTimer();
+          resolve();
+        }
+      });
     }
+
+    return new Promise((resolve, reject) => {
+      reject();
+    })
   }
 
   private setupRefreshTimer() {

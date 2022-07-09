@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { NavigationEnd, Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { filter } from 'rxjs';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-room',
@@ -14,7 +15,7 @@ export class RoomComponent implements OnInit {
   rooms: any[];
   intervals: any[];
 
-  constructor(private dataService: DataService, private router: Router) {
+  constructor(private dataService: DataService, private router: Router, private authService: AuthenticationService) {
     this.switches = [];
     this.rooms = [];
     this.intervals = [];
@@ -33,12 +34,15 @@ export class RoomComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getSwitches();
-    this.getRooms();
-
-    let this_ = this;
-    this.intervals.push(setInterval(function () { this_.getRooms() }, 5000));
-    this.intervals.push(setInterval(function () { this_.getSwitches() }, 5000));
+    this.authService.loadToken().then(() => {
+      this.getSwitches();
+      this.getRooms();
+      this.intervals.push(setInterval(() => this.getRooms(), 5000));
+      this.intervals.push(setInterval(() => this.getSwitches(), 5000));
+    },
+    () => {
+      this.router.navigate(['/login']);
+    });
   }
 
   getSwitches() {
