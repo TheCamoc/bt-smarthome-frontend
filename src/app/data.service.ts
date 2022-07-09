@@ -20,7 +20,7 @@ export class DataService {
     return this.http.get<Object[]>(`${window.location.origin}/api/rooms/?format=json`);
   }
 
-  switchSwitch(name: any, state: any) {
-    return this.http.put(`${window.location.origin}/api/switches/${name}/`, {"state": state});
+  switchSwitch(switchObject: any) {
+    return this.http.put(switchObject.url, {"state": switchObject.state});
   }
 }

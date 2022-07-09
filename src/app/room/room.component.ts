@@ -55,6 +55,6 @@ export class RoomComponent implements OnInit {
 
   switchSwitch(object: any) {
     object.state = !object.state;
-    this.dataService.switchSwitch(object.name, object.state).subscribe();
+    this.dataService.switchSwitch(object).subscribe();
   }
 }

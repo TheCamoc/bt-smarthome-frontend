@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class RoomFilterPipe implements PipeTransform {
 
   transform(devices: any[], room?: String): any[] {
-    return devices.filter(device => device['room_name'] == room);
+    return devices.filter(device => device['room'] == room);
   }
 
 }
