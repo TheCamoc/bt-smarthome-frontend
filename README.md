@@ -1,4 +1,6 @@
-# BtSmarthomeFrontend
+# SmartHome Frontend
+
+This is the frontend for my SmartHome Project.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.4.
 
