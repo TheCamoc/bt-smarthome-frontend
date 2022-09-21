@@ -16,11 +16,19 @@ export class DataService {
     return this.http.get<Object[]>(`${window.location.origin}/api/switches/?format=json`);
   }
 
+  getLights() {
+    return this.http.get<Object[]>(`${window.location.origin}/api/lights/?format=json`);
+  }
+
   getRooms() {
     return this.http.get<Object[]>(`${window.location.origin}/api/rooms/?format=json`);
   }
 
   switchSwitch(switchObject: any) {
     return this.http.put(switchObject.url, {"state": switchObject.state});
+  }
+
+  updateLight(lightObject: any) {
+    return this.http.put(lightObject.url, {"state": lightObject.state});
   }
 }

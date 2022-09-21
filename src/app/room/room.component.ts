@@ -12,11 +12,13 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class RoomComponent implements OnInit {
   switches: any[];
+  lights: any[];
   rooms: any[];
   intervals: any[];
 
   constructor(private dataService: DataService, private router: Router, private authService: AuthenticationService) {
     this.switches = [];
+    this.lights = [];
     this.rooms = [];
     this.intervals = [];
 
@@ -35,26 +37,27 @@ export class RoomComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.loadToken().then(() => {
-      this.getSwitches();
-      this.getRooms();
-      this.intervals.push(setInterval(() => this.getRooms(), 5000));
-      this.intervals.push(setInterval(() => this.getSwitches(), 5000));
+      this.getData();
+      this.intervals.push(setInterval(() => this.getData(), 5000));
     },
     () => {
       this.router.navigate(['/login']);
     });
   }
 
-  getSwitches() {
+  getData() {
     this.dataService.getSwitches().subscribe((data: Object[]) => this.switches = data);
-  }
-
-  getRooms() {
+    this.dataService.getLights().subscribe((data: Object[]) => this.lights = data);
     this.dataService.getRooms().subscribe((data: Object[]) => this.rooms = data);
   }
 
   switchSwitch(object: any) {
     object.state = !object.state;
     this.dataService.switchSwitch(object).subscribe();
+  }
+
+  updateLight(object: any) {
+    object.state = !object.state;
+    this.dataService.updateLight(object).subscribe();
   }
 }
