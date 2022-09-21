@@ -25,10 +25,10 @@ export class DataService {
   }
 
   switchSwitch(switchObject: any) {
-    return this.http.put(switchObject.url, {"state": switchObject.state});
+    return this.http.patch(switchObject.url, {"state": switchObject.state});
   }
 
   updateLight(lightObject: any) {
-    return this.http.put(lightObject.url, {"state": lightObject.state});
+    return this.http.patch(lightObject.url, {"state": lightObject.state});
   }
 }
