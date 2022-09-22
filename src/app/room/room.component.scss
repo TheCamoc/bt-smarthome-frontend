@@ -18,6 +18,15 @@
     display: inline-grid;
     row-gap: 4px;
     margin-right: 8px;
+    background-color: #ffffff0d;
+    padding: 24px;
+    border-radius: 32px;
+    transition: background-color 0.3s;
+}
+
+.container:hover {
+    background-color: #ffffff1c;
+    cursor: pointer;
 }
 
 span {

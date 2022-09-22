@@ -31,21 +31,21 @@
 </mat-card> -->
 
 <mat-card *ngFor='let room of rooms'>
-    <mat-card-title>
+    <mat-card-title style="margin-bottom: 20px;">
         {{ room.name }}
     </mat-card-title>
     <mat-card-content>
-        <mat-divider style="margin-bottom: 8px;"></mat-divider>
+        
         <!-- Switches -->
-        <span class='container' *ngFor='let switch of (switches | roomFilter:room.name)'>
-            <a mat-button (click)="switchSwitch(switch)" [style.color]="switch.state ? '#efef00': '#ffffffd9'" >
-                <mat-icon>outlet</mat-icon>
+        <span class='container' *ngFor='let switch of (switches | roomFilter:room.name)' (click)="switchSwitch(switch)">
+            <a [style.color]="switch.state ? '#efef00': '#ffffffd9'" >
+                <mat-icon>power</mat-icon>
             </a>
             <span>{{ switch.name }}</span>
         </span>
         <!-- Lights -->
-        <span class='container' *ngFor='let light of (lights | roomFilter:room.name)'>
-            <a mat-button (click)="updateLight(light)" [style.color]="light.state ? '#efef00': '#ffffffd9'" >
+        <span class='container' *ngFor='let light of (lights | roomFilter:room.name)' (click)="updateLight(light)">
+            <a [style.color]="light.state ? '#efef00': '#ffffffd9'" >
                 <mat-icon>lightbulb</mat-icon>
             </a>
             <span>{{ light.name }}</span>

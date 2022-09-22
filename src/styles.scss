@@ -1,10 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
 
-/*html, body { height: 100%; }*/
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #121212; }
-app-room { display: flex; margin: 8px;}
+@use '@angular/material' as mat;
+
+$custom-typography: mat.define-typography-config(
+    $font-family: 'Quicksand'
+);
+
+@include mat.core($custom-typography);
+
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+    background-color: #0c0d16; 
+}
+app-room { 
+    display: flex; 
+    margin: 8px;
+}
 app-login {
     display: flex;
     justify-content: center;
     margin-top: 4em;
+}
+.mat-card {
+    background-color: #1f212e;
+    border-radius: 32px !important;
+    padding: 24px !important;
+}
+.mat-toolbar {
+    background-color: #1f212e;
+}
+.mat-icon {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 32px;
 }
