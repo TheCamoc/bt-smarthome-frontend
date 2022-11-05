@@ -14,11 +14,16 @@ export class AuthenticationService {
   public refresh_token_expires: Date | undefined;
   public valid_token = false;
 
+  private api_url = window.location.origin;
+
   constructor(private http: HttpClient) {
     this.httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
+    if (!environment.production) {
+      this.api_url = "http://localhost:8000";
+    }
     //this.loadToken();
   }
 
@@ -33,7 +38,7 @@ export class AuthenticationService {
   }
 
   public login(username: String, password: String) {
-    let request = this.http.post(`${window.location.origin}/api/token/`, { "username": username, "password": password }, this.httpOptions);
+    let request = this.http.post(`${this.api_url}/api/token/`, { "username": username, "password": password }, this.httpOptions);
 
     let result = new Promise((resolve, reject) => {
       request.subscribe({
@@ -54,7 +59,7 @@ export class AuthenticationService {
       return;
     }
 
-    let request = this.http.post(`${window.location.origin}/api/token/refresh/`, { "refresh": this.refresh_token }, this.httpOptions);
+    let request = this.http.post(`${this.api_url}/api/token/refresh/`, { "refresh": this.refresh_token }, this.httpOptions);
 
     request.subscribe({
       error: (e) => console.log(e),
@@ -105,7 +110,7 @@ export class AuthenticationService {
 
       return new Promise<void>((resolve, reject) => {
         if (this.access_token_expires && new Date().getTime() > this.access_token_expires.getTime()) {
-          let request = this.http.post(`${window.location.origin}/api/token/refresh/`, { "refresh": this.refresh_token }, this.httpOptions);
+          let request = this.http.post(`${this.api_url}/api/token/refresh/`, { "refresh": this.refresh_token }, this.httpOptions);
 
           request.subscribe({
             error: (e) => reject(e),
