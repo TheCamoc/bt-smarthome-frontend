@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
-import { DataService } from '../data.service';
+import { DataService } from '../../services/data.service';
 import { filter } from 'rxjs';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-room',

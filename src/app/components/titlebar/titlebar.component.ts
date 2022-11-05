@@ -10,7 +10,11 @@ export class TitlebarComponent implements OnInit {
 
   admin_site_url = `${window.location.origin}/admin/`;
 
-  constructor() { }
+  constructor() { 
+    if (!environment.production) {
+      this.admin_site_url = 'http://localhost:8000/admin/'
+    }
+  }
 
   ngOnInit(): void {
   }
