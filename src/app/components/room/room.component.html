@@ -44,7 +44,7 @@
             <span>{{ switch.name }}</span>
         </span>
         <!-- Lights -->
-        <span class='container' *ngFor='let light of (lights | roomFilter:room.name)' (click)="updateLight(light)">
+        <span class='container' *ngFor='let light of (lights | roomFilter:room.name)' (click)="switchLight(light)">
             <a [style.color]="light.state ? '#efef00': '#ffffffd9'" >
                 <mat-icon>lightbulb</mat-icon>
             </a>
