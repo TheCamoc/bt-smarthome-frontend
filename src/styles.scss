@@ -3,7 +3,7 @@
 @use '@angular/material' as mat;
 
 $custom-typography: mat.define-typography-config(
-    $font-family: 'Quicksand'
+    $font-family: 'Roboto'
 );
 
 @include mat.core($custom-typography);
@@ -29,9 +29,4 @@ app-login {
 }
 .mat-toolbar {
     background-color: #1f212e;
-}
-.mat-icon {
-    width: 26px !important;
-    height: 26px !important;
-    font-size: 26px;
 }

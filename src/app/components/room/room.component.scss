@@ -16,34 +16,45 @@
 }
 
 .mat-icon  {
+    height: 32px;
+    width: 32px;
+    font-size: 32px;
+}
+.mat-icon.small  {
     height: 24px;
     width: 24px;
+    font-size: 24px;
 }
 
 .container {
     display: flex;
+    flex-wrap: wrap;
     margin-right: 8px;
-    background-color: rgba(255, 255, 255, 0.0509803922);
-    padding: 24px;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 20px;
     border-radius: 32px;
     transition: background-color 0.3s;
-    height: 1em;
     width: 20em;
     align-items: center;
     justify-content: flex-start;
     gap: 8px;
 }
 
-.container:hover {
+.container.hover:hover {
     background-color: #ffffff1c;
     cursor: pointer;
 }
 
 span {
+    font-size: 18px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     text-align: center;
+}
+
+.small {
+    font-size: 16px;
 }
 
 a {

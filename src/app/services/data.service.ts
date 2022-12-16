@@ -15,6 +15,10 @@ export class DataService {
     }
   }
 
+  getSensors() {
+    return this.http.get<Object[]>(`${this.api_url}/api/sensors/?format=json`);
+  }
+
   getSwitches() {
     return this.http.get<Object[]>(`${this.api_url}/api/switches/?format=json`);
   }

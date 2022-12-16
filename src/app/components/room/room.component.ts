@@ -11,12 +11,14 @@ import { AuthenticationService } from '../../services/authentication.service';
   styleUrls: ['./room.component.scss']
 })
 export class RoomComponent implements OnInit {
+  sensors: any[];
   switches: any[];
   lights: any[];
   rooms: any[];
   intervals: any[];
 
   constructor(private dataService: DataService, private router: Router, private authService: AuthenticationService) {
+    this.sensors = [];
     this.switches = [];
     this.lights = [];
     this.rooms = [];
@@ -46,6 +48,7 @@ export class RoomComponent implements OnInit {
   }
 
   getData() {
+    this.dataService.getSensors().subscribe((data: Object[]) => this.sensors = data);
     this.dataService.getSwitches().subscribe((data: Object[]) => this.switches = data);
     this.dataService.getLights().subscribe((data: Object[]) => this.lights = data);
     this.dataService.getRooms().subscribe((data: Object[]) => this.rooms = data);

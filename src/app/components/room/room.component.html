@@ -35,16 +35,40 @@
         {{ room.name }}
     </mat-card-title>
     <mat-card-content>
-        
+        <!-- Sensors -->
+        <span class='container' *ngFor='let sensor of (sensors | roomFilter:room.name)'>
+            <span>{{ sensor.name }}</span>
+            
+            <a class='small' *ngIf="sensor.temperature">
+                <div style="flex-basis: 100%"></div>
+                <mat-icon class='small'>device_thermostat</mat-icon>
+                {{sensor.temperature}} °C
+            </a>
+            <a class='small' *ngIf="sensor.humidity">
+                <div style="flex-basis: 100%"></div>
+                <mat-icon class='small'>water_drop</mat-icon>
+                {{sensor.humidity}} %
+            </a>
+            <a class='small' *ngIf="sensor.pressure">
+                <div style="flex-basis: 100%"></div>
+                <mat-icon class='small'>speed</mat-icon>
+                {{sensor.pressure}} hPA
+            </a>
+            <a class='small' *ngIf="sensor.air_quality">
+                <div style="flex-basis: 100%"></div>
+                <mat-icon class='small'>co2</mat-icon>
+                {{sensor.air_quality}}
+            </a>
+        </span>
         <!-- Switches -->
-        <span class='container' *ngFor='let switch of (switches | roomFilter:room.name)' (click)="switchSwitch(switch)">
+        <span class='container hover' *ngFor='let switch of (switches | roomFilter:room.name)' (click)="switchSwitch(switch)">
             <a [style.color]="switch.state ? '#efef00': '#ffffffd9'" >
                 <mat-icon>power</mat-icon>
             </a>
             <span>{{ switch.name }}</span>
         </span>
         <!-- Lights -->
-        <span class='container' *ngFor='let light of (lights | roomFilter:room.name)' (click)="switchLight(light)">
+        <span class='container hover' *ngFor='let light of (lights | roomFilter:room.name)' (click)="switchLight(light)">
             <a [style.color]="light.state ? '#efef00': '#ffffffd9'" >
                 <mat-icon>lightbulb</mat-icon>
             </a>
