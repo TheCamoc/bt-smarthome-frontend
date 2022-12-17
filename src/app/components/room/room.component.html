@@ -48,12 +48,12 @@
                     <mat-icon [style.color]="light.state ? '#efef00': '#ffffffd9'">lightbulb</mat-icon>
                     {{ light.name }}
                 </span>
-                
+
                 <span class='subtitle hover' (click)="expandLight(light)">
                     <mat-icon style='margin-left: auto; margin-right: 0px;'>expand_more</mat-icon>
                 </span>
             </div>
-            
+
             <div class='content' *ngIf="light.expanded" [@inOutAnimation]>
                 <span style='justify-content: space-between;'>
                     Red

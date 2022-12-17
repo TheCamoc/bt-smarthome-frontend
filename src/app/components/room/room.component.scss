@@ -9,13 +9,13 @@
     flex-direction: column;
 }
 
-mat-icon  {
+mat-icon {
     height: 32px;
     width: 32px;
     font-size: 32px;
 }
 
-.small  {
+.small {
     height: 24px;
     width: 24px;
     font-size: 24px;
@@ -34,7 +34,7 @@ mat-icon  {
     gap: 8px;
 
     .title {
-        width: 100%;        
+        width: 100%;
         display: flex;
         justify-content: space-between;
 
@@ -51,7 +51,7 @@ mat-icon  {
             align-items: center;
             padding: 8px;
         }
-        
+
         .subtitle.hover:hover {
             background-color: #ffffff1c;
             cursor: pointer;
@@ -72,6 +72,7 @@ mat-icon  {
             margin-left: 16px;
             margin-right: 16px;
             margin-bottom: 8px;
+
             mat-icon {
                 margin-right: 8px;
             }

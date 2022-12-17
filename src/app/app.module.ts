@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RoomComponent } from './components/room/room.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -22,31 +22,31 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeadersInterceptor } from './headers.interceptor';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    RoomComponent,
-    RoomFilterPipe,
-    TitlebarComponent,
-    LoginComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatCardModule,
-    MatIconModule,
-    MatSlideToggleModule,
-    MatSliderModule,
-    MatDividerModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatInputModule,
-    MatFormFieldModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        RoomComponent,
+        RoomFilterPipe,
+        TitlebarComponent,
+        LoginComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatCardModule,
+        MatIconModule,
+        MatSlideToggleModule,
+        MatSliderModule,
+        MatDividerModule,
+        MatButtonModule,
+        MatToolbarModule,
+        MatInputModule,
+        MatFormFieldModule,
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

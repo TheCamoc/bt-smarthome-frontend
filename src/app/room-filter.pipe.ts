@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'roomFilter'
+    name: 'roomFilter'
 })
 export class RoomFilterPipe implements PipeTransform {
 
-  transform(devices: any[], room?: String): any[] {
-    return devices.filter(device => device['room'] == room);
-  }
+    transform(devices: any[], room?: String): any[] {
+        return devices.filter(device => device['room'] == room);
+    }
 
 }
