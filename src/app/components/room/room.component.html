@@ -37,7 +37,13 @@
     <mat-card-content>
         <!-- Sensors -->
         <span class='container' *ngFor='let sensor of (sensors | roomFilter:room.name)'>
-            <span>{{ sensor.name }}</span>
+            <span style="background: rgb(255 255 255 / 3%);
+                width: 100%;
+                border: 12px solid transparent;
+                border-radius: 16px;
+                text-align: initial;">
+                {{ sensor.name }}
+            </span>
             
             <a class='small' *ngIf="sensor.temperature">
                 <div style="flex-basis: 100%"></div>
