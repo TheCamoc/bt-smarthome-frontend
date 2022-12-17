@@ -8,6 +8,7 @@ import { RoomComponent } from './components/room/room.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatCardModule} from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RoomFilterPipe } from './room-filter.pipe';
 import { MatDividerModule } from '@angular/material/divider';
@@ -36,6 +37,7 @@ import { HeadersInterceptor } from './headers.interceptor';
     MatCardModule,
     MatIconModule,
     MatSlideToggleModule,
+    MatSliderModule,
     MatDividerModule,
     MatButtonModule,
     MatToolbarModule,

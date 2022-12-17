@@ -36,6 +36,12 @@ export class DataService {
   }
 
   updateLight(lightObject: any) {
-    return this.http.patch(lightObject.url, {"state": lightObject.state});
+    return this.http.patch(lightObject.url, {
+      "state": lightObject.state,
+      "r": lightObject.r,
+      "g": lightObject.g,
+      "b": lightObject.b,
+      "w": lightObject.w
+    });
   }
 }

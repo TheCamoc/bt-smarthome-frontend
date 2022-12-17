@@ -1,35 +1,3 @@
-<!--<mat-card *ngFor='let room of rooms'>
-    <mat-card-title>
-        {{ room.name }}
-    </mat-card-title>
-    <mat-card-content>
-        <span class='container' *ngFor='let device of (devices | buttons | room:room.name)'>
-            <a (click)="switchDevice(device)" [style.color]="device.state ? '#efef00': 'black'" mat-button>
-                <mat-icon svgIcon="{{device.icon}}"></mat-icon>
-            </a>
-            <span class="sub">{{ device.name }}</span>
-        </span>
-    </mat-card-content>
-    
-    <mat-card-actions>
-        <a mat-button (click)="openSettingsDialog()">
-            <mat-icon svgIcon="settings"></mat-icon>
-            Device Settings
-        </a>
-        <a mat-button (click)="openAddDeviceDialog()">
-            <mat-icon svgIcon="plus-circle"></mat-icon>
-            Add Device
-        </a>
-    </mat-card-actions>
-</mat-card>-->
-
-<!--<mat-card class="switch-card" *ngFor="let switch of switches">
-    <mat-card-subtitle>{{ switch.name }}</mat-card-subtitle>
-    <mat-card-actions>
-        <mat-slide-toggle [checked]="switch.state"></mat-slide-toggle>
-    </mat-card-actions>
-</mat-card> -->
-
 <mat-card *ngFor='let room of rooms'>
     <mat-card-title style="margin-bottom: 20px;">
         {{ room.name }}
@@ -37,48 +5,81 @@
     <mat-card-content>
         <!-- Sensors -->
         <span class='container' *ngFor='let sensor of (sensors | roomFilter:room.name)'>
-            <span style="background: rgb(255 255 255 / 3%);
-                width: 100%;
-                border: 12px solid transparent;
-                border-radius: 16px;
-                text-align: initial;">
-                {{ sensor.name }}
-            </span>
-            
-            <a class='small' *ngIf="sensor.temperature">
-                <div style="flex-basis: 100%"></div>
-                <mat-icon class='small'>device_thermostat</mat-icon>
-                {{sensor.temperature}} °C
-            </a>
-            <a class='small' *ngIf="sensor.humidity">
-                <div style="flex-basis: 100%"></div>
-                <mat-icon class='small'>water_drop</mat-icon>
-                {{sensor.humidity}} %
-            </a>
-            <a class='small' *ngIf="sensor.pressure">
-                <div style="flex-basis: 100%"></div>
-                <mat-icon class='small'>speed</mat-icon>
-                {{sensor.pressure}} hPA
-            </a>
-            <a class='small' *ngIf="sensor.air_quality">
-                <div style="flex-basis: 100%"></div>
-                <mat-icon class='small'>co2</mat-icon>
-                {{sensor.air_quality}}
-            </a>
+            <div class='title'>
+                <span class='subtitle' style='width: 100%;'>
+                    <mat-icon>sensors</mat-icon>
+                    {{ sensor.name }}
+                </span>
+            </div>
+            <div class='content'>
+                <span *ngIf="sensor.temperature">
+                    <mat-icon class='small'>device_thermostat</mat-icon>
+                    {{sensor.temperature}} °C
+                </span>
+                <span *ngIf="sensor.humidity">
+                    <mat-icon class='small'>water_drop</mat-icon>
+                    {{sensor.humidity}} %
+                </span>
+                <span *ngIf="sensor.pressure">
+                    <mat-icon class='small'>speed</mat-icon>
+                    {{sensor.pressure}} hPA
+                </span>
+                <span *ngIf="sensor.air_quality">
+                    <mat-icon class='small'>co2</mat-icon>
+                    {{sensor.air_quality}}
+                </span>
+            </div>
         </span>
+
         <!-- Switches -->
-        <span class='container hover' *ngFor='let switch of (switches | roomFilter:room.name)' (click)="switchSwitch(switch)">
-            <a [style.color]="switch.state ? '#efef00': '#ffffffd9'" >
-                <mat-icon>power</mat-icon>
-            </a>
-            <span>{{ switch.name }}</span>
+        <span class='container' *ngFor='let switch of (switches | roomFilter:room.name)'>
+            <div class='title'>
+                <span class='subtitle hover' style='width: 100%;' (click)="switchSwitch(switch)">
+                    <mat-icon [style.color]="switch.state ? '#efef00': '#ffffffd9'">power</mat-icon>
+                    {{ switch.name }}
+                </span>
+            </div>
         </span>
+
         <!-- Lights -->
-        <span class='container hover' *ngFor='let light of (lights | roomFilter:room.name)' (click)="switchLight(light)">
-            <a [style.color]="light.state ? '#efef00': '#ffffffd9'" >
-                <mat-icon>lightbulb</mat-icon>
-            </a>
-            <span>{{ light.name }}</span>
+        <span class='container hover' *ngFor='let light of (lights | roomFilter:room.name)'>
+            <div class='title'>
+                <span class='subtitle hover' style='width: 67%;' (click)="switchLight(light)">
+                    <mat-icon [style.color]="light.state ? '#efef00': '#ffffffd9'">lightbulb</mat-icon>
+                    {{ light.name }}
+                </span>
+                
+                <span class='subtitle hover' (click)="expandLight(light)">
+                    <mat-icon style='margin-left: auto; margin-right: 0px;'>expand_more</mat-icon>
+                </span>
+            </div>
+            
+            <div class='content' *ngIf="light.expanded" [@inOutAnimation]>
+                <span style='justify-content: space-between;'>
+                    Red
+                    <mat-slider min="0" max="255" step="1" [(ngModel)]="light.r" (valueChange)="updateLight(light)">
+                        <input matSliderThumb>
+                    </mat-slider>
+                </span>
+                <span style='justify-content: space-between;'>
+                    Green
+                    <mat-slider min="0" max="255" step="1" [(ngModel)]="light.g" (valueChange)="updateLight(light)">
+                        <input matSliderThumb>
+                    </mat-slider>
+                </span>
+                <span style='justify-content: space-between;'>
+                    Blue
+                    <mat-slider min="0" max="255" step="1" [(ngModel)]="light.b" (valueChange)="updateLight(light)">
+                        <input matSliderThumb>
+                    </mat-slider>
+                </span>
+                <span style='justify-content: space-between;' *ngIf="light.has_white_led">
+                    White
+                    <mat-slider min="0" max="255" step="1" [(ngModel)]="light.w" (valueChange)="updateLight(light)">
+                        <input matSliderThumb>
+                    </mat-slider>
+                </span>
+            </div>
         </span>
     </mat-card-content>
 </mat-card>
