@@ -64,7 +64,7 @@ export class RoomComponent implements OnInit {
   ngOnInit(): void {
     this.authService.loadToken().then(() => {
       this.getData();
-      this.intervals.push(setInterval(() => this.getData(), 15000));
+      this.intervals.push(setInterval(() => this.getData(), 5000));
     },
     () => {
       this.router.navigate(['/login']);
@@ -72,10 +72,45 @@ export class RoomComponent implements OnInit {
   }
 
   getData() {
-    this.dataService.getSensors().subscribe((data: Object[]) => this.sensors = data);
-    this.dataService.getSwitches().subscribe((data: Object[]) => this.switches = data);
-    this.dataService.getLights().subscribe((data: Object[]) => this.lights = data);
-    this.dataService.getRooms().subscribe((data: Object[]) => this.rooms = data);
+    this.dataService.getSensors().subscribe((data: Object[]) => this.updateData(data, 'sensor'));
+    this.dataService.getSwitches().subscribe((data: Object[]) => this.updateData(data, 'switches'));
+    this.dataService.getLights().subscribe((data: Object[]) => this.updateData(data, 'lights'));
+    this.dataService.getRooms().subscribe((data: Object[]) => this.updateData(data, 'rooms'));
+  }
+
+  getObjectByUrl(url: string) {
+    for (let object of [...this.sensors, ...this.switches, ...this.lights, ...this.rooms]) {
+      if (object.url == url) {
+        return object;
+      }
+    }
+    return undefined;
+  }
+
+  updateData(newdata: any, type: string) {
+    for (let object of newdata) {
+      let existing = this.getObjectByUrl(object.url);
+      if (existing) {
+        for (let key in object) {
+          existing[key] = object[key];
+        }
+      } else {
+        switch(type) {
+          case 'sensor':
+            this.sensors.push(object);
+            break;
+          case 'switches':
+            this.switches.push(object);
+            break;
+          case 'lights':
+            this.lights.push(object);
+            break;
+          case 'rooms':
+            this.rooms.push(object);
+            break;
+        }
+      }
+    }
   }
 
   switchSwitch(object: any) {
