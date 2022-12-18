@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
-import { filter } from 'rxjs';
+import { combineLatest, filter } from 'rxjs';
 import { AuthenticationService } from '../../services/authentication.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
@@ -72,10 +72,17 @@ export class RoomComponent implements OnInit {
     }
 
     getData() {
-        this.dataService.getSensors().subscribe((data: Object[]) => this.updateData(data, 'sensor'));
-        this.dataService.getSwitches().subscribe((data: Object[]) => this.updateData(data, 'switches'));
-        this.dataService.getLights().subscribe((data: Object[]) => this.updateData(data, 'lights'));
-        this.dataService.getRooms().subscribe((data: Object[]) => this.updateData(data, 'rooms'));
+        let roomRequest = this.dataService.getRooms();
+        let sensorRequest = this.dataService.getSensors();
+        let switchRequest = this.dataService.getSwitches();
+        let lightRequest = this.dataService.getLights();
+        
+        combineLatest([roomRequest, sensorRequest, switchRequest, lightRequest]).forEach((devices) => {
+            this.updateData(devices[0], 'room');
+            this.updateData(devices[1], 'sensor');
+            this.updateData(devices[2], 'switch');
+            this.updateData(devices[3], 'light');
+        });
     }
 
     getObjectByUrl(url: string) {
@@ -99,13 +106,13 @@ export class RoomComponent implements OnInit {
                     case 'sensor':
                         this.sensors.push(object);
                         break;
-                    case 'switches':
+                    case 'switch':
                         this.switches.push(object);
                         break;
-                    case 'lights':
+                    case 'light':
                         this.lights.push(object);
                         break;
-                    case 'rooms':
+                    case 'room':
                         this.rooms.push(object);
                         break;
                 }
