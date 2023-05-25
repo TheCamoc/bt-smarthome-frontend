@@ -1,4 +1,4 @@
-<mat-card *ngFor='let room of rooms'>
+<mat-card *ngFor='let room of rooms' style="overflow:auto">
     <mat-card-title style="margin-bottom: 20px;">
         {{ room.name }}
     </mat-card-title>
@@ -76,6 +76,56 @@
                 <span style='justify-content: space-between;' *ngIf="light.has_white_led">
                     White
                     <mat-slider min="0" max="255" step="1" [(ngModel)]="light.w" (valueChange)="updateLight(light)">
+                        <input matSliderThumb>
+                    </mat-slider>
+                </span>
+            </div>
+        </span>
+
+        <!-- Thermostats -->
+        <span class='container' *ngFor='let thermostat of (thermostats | roomFilter:room.name)'>
+            <div class='title'>
+                <span class='subtitle' style='width: 67%;'>
+                    <mat-icon [style.color]="thermostat.state ? '#efef00': '#ffffffd9'">thermostat</mat-icon>
+                    {{ thermostat.name }}
+                </span>
+
+                <span class='subtitle hover' (click)="expandThermostat(thermostat)">
+                    <mat-icon style='margin-left: auto; margin-right: 0px;'>expand_more</mat-icon>
+                </span>
+            </div>
+
+            <div class='content' *ngIf="thermostat.expanded" [@inOutAnimation]>
+                <span style='justify-content: space-between;'>
+                    <mat-slider style="margin: 24px 12px 0px 12px; width:100%" thumbLabel min="10" max="30" step="0.5" 
+                    [(ngModel)]="thermostat.target_temperature" 
+                    (valueChange)="updateThermostat(thermostat)"
+                    [displayWith]="formatLabelTemperature">
+                        <input matSliderThumb>
+                    </mat-slider>
+                </span>
+            </div>
+        </span>
+
+         <!-- Fans -->
+         <span class='container' *ngFor='let fan of (fans | roomFilter:room.name)'>
+            <div class='title'>
+                <span class='subtitle hover' style='width: 67%;' (click)="switchFan(fan)">
+                    <mat-icon [style.color]="fan.state ? '#efef00': '#ffffffd9'">air</mat-icon>
+                    {{ fan.name }}
+                </span>
+
+                <span class='subtitle hover' (click)="expandThermostat(fan)">
+                    <mat-icon style='margin-left: auto; margin-right: 0px;'>expand_more</mat-icon>
+                </span>
+            </div>
+
+            <div class='content' *ngIf="fan.expanded" [@inOutAnimation]>
+                <span style='justify-content: space-between;'>
+                    <mat-slider style="margin: 24px 12px 0px 12px; width:100%" thumbLabel min="0" max="100" step="1" 
+                    [(ngModel)]="fan.speed" 
+                    (valueChange)="updateFan(fan)"
+                    [displayWith]="formatLabelPercent">
                         <input matSliderThumb>
                     </mat-slider>
                 </span>

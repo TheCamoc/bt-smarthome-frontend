@@ -27,12 +27,34 @@ export class DataService {
         return this.http.get<Object[]>(`${this.api_url}/api/lights/?format=json`);
     }
 
+    getThermostats() {
+        return this.http.get<Object[]>(`${this.api_url}/api/thermostats/?format=json`);
+    }
+
+    getFans() {
+        return this.http.get<Object[]>(`${this.api_url}/api/fans/?format=json`);
+    }
+
     getRooms() {
         return this.http.get<Object[]>(`${this.api_url}/api/rooms/?format=json`);
     }
 
     switchSwitch(switchObject: any) {
         return this.http.patch(switchObject.url, { "state": switchObject.state });
+    }
+
+    updateThermostat(thermostatObject: any) {
+        return this.http.patch(thermostatObject.url, { 
+            "target_temperature": thermostatObject.target_temperature 
+        });
+    }
+
+    updateFan(fanObject: any) {
+        console.log(fanObject);
+        return this.http.patch(fanObject.url, { 
+            "state": fanObject.state,
+            "speed": fanObject.speed 
+        });
     }
 
     updateLight(lightObject: any) {

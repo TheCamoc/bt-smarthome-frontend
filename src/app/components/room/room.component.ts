@@ -37,6 +37,8 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 export class RoomComponent implements OnInit {
     sensors: any[];
     switches: any[];
+    thermostats: any[];
+    fans: any[];
     lights: any[];
     rooms: any[];
     intervals: any[];
@@ -44,6 +46,8 @@ export class RoomComponent implements OnInit {
     constructor(private dataService: DataService, private router: Router, private authService: AuthenticationService) {
         this.sensors = [];
         this.switches = [];
+        this.thermostats = [];
+        this.fans = [];
         this.lights = [];
         this.rooms = [];
         this.intervals = [];
@@ -75,18 +79,22 @@ export class RoomComponent implements OnInit {
         let roomRequest = this.dataService.getRooms();
         let sensorRequest = this.dataService.getSensors();
         let switchRequest = this.dataService.getSwitches();
+        let thermostatRequest = this.dataService.getThermostats();
+        let fanRequest = this.dataService.getFans();
         let lightRequest = this.dataService.getLights();
         
-        combineLatest([roomRequest, sensorRequest, switchRequest, lightRequest]).forEach((devices) => {
+        combineLatest([roomRequest, sensorRequest, switchRequest, lightRequest, thermostatRequest, fanRequest]).forEach((devices) => {
             this.updateData(devices[0], 'room');
             this.updateData(devices[1], 'sensor');
             this.updateData(devices[2], 'switch');
             this.updateData(devices[3], 'light');
+            this.updateData(devices[4], 'thermostat');
+            this.updateData(devices[5], 'fan');
         });
     }
 
     getObjectByUrl(url: string) {
-        for (let object of [...this.sensors, ...this.switches, ...this.lights, ...this.rooms]) {
+        for (let object of [...this.sensors, ...this.switches, ...this.lights, ...this.rooms, ...this.thermostats, ...this.fans]) {
             if (object.url == url) {
                 return object;
             }
@@ -115,6 +123,12 @@ export class RoomComponent implements OnInit {
                     case 'room':
                         this.rooms.push(object);
                         break;
+                    case 'thermostat':
+                        this.thermostats.push(object);
+                        break;
+                    case 'fan':
+                        this.fans.push(object);
+                        break;
                 }
             }
         }
@@ -123,6 +137,19 @@ export class RoomComponent implements OnInit {
     switchSwitch(object: any) {
         object.state = !object.state;
         this.dataService.switchSwitch(object).subscribe();
+    }
+
+    updateThermostat(object: any) {
+        this.dataService.updateThermostat(object).subscribe();
+    }
+
+    updateFan(object: any) {
+        this.dataService.updateFan(object).subscribe();
+    }
+
+    switchFan(object: any) {
+        object.state = !object.state;
+        this.updateFan(object);
     }
 
     switchLight(object: any) {
@@ -136,5 +163,21 @@ export class RoomComponent implements OnInit {
 
     expandLight(object: any) {
         object.expanded = !object.expanded;
+    }
+
+    expandThermostat(object: any) {
+        object.expanded = !object.expanded;
+    }
+    
+    expandFan(object: any) {
+        object.expanded = !object.expanded
+    }
+
+    formatLabelTemperature(value: number) {
+        return value + "°C";
+    }
+
+    formatLabelPercent(value: number) {
+        return value + "%";
     }
 }

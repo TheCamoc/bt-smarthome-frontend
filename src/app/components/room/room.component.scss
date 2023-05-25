@@ -63,6 +63,7 @@ mat-icon {
         align-items: center;
         flex-wrap: wrap;
         margin: 8px;
+        width: 100%;
 
         span {
             display: flex;
@@ -90,4 +91,15 @@ span {
 
 mat-slider {
     width: 80%;
+}
+
+::ng-deep .mat-slider-wrapper {
+    .mat-slider-thumb-container {
+        .mat-slider-thumb-label {
+            width: 36px;
+            height: 36px;
+            top: -48px;
+            right: -18px;
+        }
+    }
 }

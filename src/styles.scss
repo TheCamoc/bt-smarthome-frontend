@@ -12,10 +12,12 @@ body {
     margin: 0; 
     font-family: Roboto, "Helvetica Neue", sans-serif; 
     background-color: #0c0d16; 
+    height: 100vh;
 }
 app-room { 
     display: flex; 
     margin: 8px;
+    max-height: calc(100% - 80px);
 }
 app-login {
     display: flex;
