@@ -35,6 +35,10 @@ export class DataService {
         return this.http.get<Object[]>(`${this.api_url}/api/fans/?format=json`);
     }
 
+    getTables() {
+        return this.http.get<Object[]>(`${this.api_url}/api/tables/?format=json`);
+    }
+
     getRooms() {
         return this.http.get<Object[]>(`${this.api_url}/api/rooms/?format=json`);
     }
@@ -65,5 +69,11 @@ export class DataService {
             "b": lightObject.b,
             "w": lightObject.w
         });
+    }
+
+    updateTable(tableObject: any) {
+        return this.http.patch(tableObject.url, {
+            state: tableObject.state
+        })
     }
 }

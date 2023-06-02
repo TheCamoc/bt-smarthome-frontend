@@ -40,6 +40,7 @@ export class RoomComponent implements OnInit {
     thermostats: any[];
     fans: any[];
     lights: any[];
+    tables: any[];
     rooms: any[];
     intervals: any[];
 
@@ -49,6 +50,7 @@ export class RoomComponent implements OnInit {
         this.thermostats = [];
         this.fans = [];
         this.lights = [];
+        this.tables = [];
         this.rooms = [];
         this.intervals = [];
 
@@ -82,19 +84,21 @@ export class RoomComponent implements OnInit {
         let thermostatRequest = this.dataService.getThermostats();
         let fanRequest = this.dataService.getFans();
         let lightRequest = this.dataService.getLights();
+        let tableRequest = this.dataService.getTables();
         
-        combineLatest([roomRequest, sensorRequest, switchRequest, lightRequest, thermostatRequest, fanRequest]).forEach((devices) => {
+        combineLatest([roomRequest, sensorRequest, switchRequest, lightRequest, thermostatRequest, fanRequest, tableRequest]).forEach((devices) => {
             this.updateData(devices[0], 'room');
             this.updateData(devices[1], 'sensor');
             this.updateData(devices[2], 'switch');
             this.updateData(devices[3], 'light');
             this.updateData(devices[4], 'thermostat');
             this.updateData(devices[5], 'fan');
+            this.updateData(devices[6], 'table');
         });
     }
 
     getObjectByUrl(url: string) {
-        for (let object of [...this.sensors, ...this.switches, ...this.lights, ...this.rooms, ...this.thermostats, ...this.fans]) {
+        for (let object of [...this.sensors, ...this.switches, ...this.lights, ...this.rooms, ...this.thermostats, ...this.fans, ...this.tables]) {
             if (object.url == url) {
                 return object;
             }
@@ -129,6 +133,9 @@ export class RoomComponent implements OnInit {
                     case 'fan':
                         this.fans.push(object);
                         break;
+                    case 'table':
+                        this.tables.push(object);
+                        break;
                 }
             }
         }
@@ -159,6 +166,11 @@ export class RoomComponent implements OnInit {
 
     updateLight(object: any) {
         this.dataService.updateLight(object).subscribe();
+    }
+
+    updateTable(object:any, state: boolean) {
+        object.state = state;
+        this.dataService.updateTable(object).subscribe();
     }
 
     expandLight(object: any) {

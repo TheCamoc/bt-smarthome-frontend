@@ -107,8 +107,8 @@
             </div>
         </span>
 
-         <!-- Fans -->
-         <span class='container' *ngFor='let fan of (fans | roomFilter:room.name)'>
+        <!-- Fans -->
+        <span class='container' *ngFor='let fan of (fans | roomFilter:room.name)'>
             <div class='title'>
                 <span class='subtitle hover' style='width: 67%;' (click)="switchFan(fan)">
                     <mat-icon [style.color]="fan.state ? '#efef00': '#ffffffd9'">air</mat-icon>
@@ -128,6 +128,24 @@
                     [displayWith]="formatLabelPercent">
                         <input matSliderThumb>
                     </mat-slider>
+                </span>
+            </div>
+        </span>
+
+        <!-- Tables -->
+        <span class='container' *ngFor='let table of (tables | roomFilter:room.name)'>
+            <div class='title'>
+                <span class='subtitle' style='width: 45%;'>
+                    <mat-icon [style.rotate]="table.state ? '0deg': '180deg'">arrow_upward</mat-icon>
+                    {{ table.name }}
+                </span>
+
+                <span class='subtitle hover' (click)="updateTable(table, true)">
+                    <mat-icon style='margin-left: auto; margin-right: 0px;'>expand_less</mat-icon>
+                </span>
+
+                <span class='subtitle hover' (click)="updateTable(table, false)">
+                    <mat-icon style='margin-left: auto; margin-right: 0px;'>expand_more</mat-icon>
                 </span>
             </div>
         </span>
